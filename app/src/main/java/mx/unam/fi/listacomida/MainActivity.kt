@@ -6,6 +6,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -46,22 +48,25 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun PlatilloList(platillos: List<Platillo>) {
-    Column(modifier = Modifier.padding(5.dp)) {
-        platillos.forEach { platillo ->
-            MenuCard(platillo = platillo, modifier = Modifier.fillMaxWidth())
+fun PlatilloList(platillos: List<Platillo>, modifier: Modifier = Modifier) {
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(vertical = 8.dp)
+    ) {
+        items(platillos) { platillo ->
+            MenuCard(platillo = platillo, modifier = Modifier.fillParentMaxWidth())
         }
     }
 }
 
 @Composable
 fun MenuCard(platillo: Platillo, modifier: Modifier = Modifier) {
-    Card(modifier = modifier.padding(vertical = 6.dp)) {
+    Card(modifier = modifier.padding(vertical = 15.dp)) {
         Row(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Imagen circular a la izquierda
+
             Image(
                 painter = painterResource(id = platillo.drawableResourceId),
                 contentDescription = stringResource(id = platillo.stringResourceId),
@@ -70,7 +75,7 @@ fun MenuCard(platillo: Platillo, modifier: Modifier = Modifier) {
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
-            // Columna para el texto a la derecha de la imagen
+
             Column(
                 modifier = Modifier.padding(start = 8.dp)
             ) {
